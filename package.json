@@ -1,0 +1,29 @@
+{
+  "name": "shelfwise",
+  "version": "1.0.0",
+  "description": "Simple Library Management System",
+  "license": "ISC",
+  "author": "Omar Kassem",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/server.ts",
+    "dev-watch": "nodemon --watch src --ext ts,js,json --exec 'tsx src/server.ts'",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "eslint": "^9.35.0",
+    "prettier": "^3.6.2",
+    "husky": "^9.1.7",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
