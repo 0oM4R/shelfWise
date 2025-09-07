@@ -1,6 +1,7 @@
 
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '@/database/db';
+import bcrypt from "bcrypt"
 /**
  * Represents a borrower in the library system.
  * @class
@@ -48,12 +49,12 @@ Borrower.init(
         },
       },
     },
-    password:{
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
+      validate: {
         notEmpty: true,
-        len: [4,16]
+        len: [4, 16]
       }
     },
   },
@@ -62,5 +63,15 @@ Borrower.init(
     modelName: 'Borrower',
     tableName: 'borrowers',
     timestamps: true,
+    hooks: {
+      beforeCreate: async (borrower: Borrower) => {
+        borrower.password = await bcrypt.hash(borrower.password, 10)
+      },
+      beforeUpdate: async (borrower: Borrower)=> {
+        if(borrower.changed('password')){
+          borrower.password = await bcrypt.hash(borrower.password, 10)
+        }
+      }
+    }
   }
 );

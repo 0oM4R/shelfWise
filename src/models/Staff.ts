@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
+import bcrypt from 'bcrypt'
 import { sequelize } from '@/database/db';
 
 /**
@@ -54,5 +55,15 @@ Staff.init(
     modelName: 'Staff',
     tableName: 'staff',
     timestamps: true,
+    hooks: {
+      beforeCreate: async (staff: Staff) => {
+        staff.password = await bcrypt.hash(staff.password, 10);
+      },
+      beforeUpdate: async (staff: Staff) => {
+        if (staff.changed("password")) {
+          staff.password = await bcrypt.hash(staff.password, 10)
+        }
+      }
+    }
   }
 );
