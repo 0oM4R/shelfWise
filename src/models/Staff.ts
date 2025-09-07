@@ -6,7 +6,7 @@ import { sequelize } from '@/database/db';
  * Represents a Staff member of the Library Management System.
  * Staff can manage books, borrowers, and borrowing records.
  */
-export class Staff extends Model {
+export default class Staff extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
