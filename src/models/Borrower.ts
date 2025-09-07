@@ -16,7 +16,7 @@ export default class Borrower extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
-  public registeredAt!: Date;
+  public password!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -48,13 +48,13 @@ Borrower.init(
         },
       },
     },
-    registeredAt: {
-      type: DataTypes.DATE,
+    password:{
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
-      validate: {
-        isDate: true,
-      },
+      validate:{
+        notEmpty: true,
+        len: [4,16]
+      }
     },
   },
   {
