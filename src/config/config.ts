@@ -6,6 +6,7 @@ interface Config {
   port: number;
   db: {
     host: string;
+    port: number;
     name: string;
     user: string;
     password: string;
@@ -13,9 +14,10 @@ interface Config {
 }
 
 const config :Config = {
-  port: Number(process.env?.['PORT']) || 3000,
+  port: Number(process.env?.['APP_PORT']) || 3000,
   db: {
-    host: process.env?.['DB_HOST'] || 'localhost:5432',
+    host: process.env?.['DB_HOST'] || 'localhost',
+    port: +(process.env?.['DB_PORT'] || 5432),
     name: process.env?.['DB_NAME'] || 'database',
     user: process.env?.["DB_USER"] || 'user',
     password: process.env?.["DB_PASSWORD"]|| 'password'
