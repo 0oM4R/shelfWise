@@ -57,8 +57,8 @@ export async function login(input: {
   if (!match) throw new Error("InvalidCredentials");
   const token = jwt.sign(
     {
-      id: staff.id,
-      email: staff.email,
+      id: staff.dataValues.id,
+      email: staff.dataValues.email,
       role: ROLES.staff,
     },
     //todo add to config

@@ -58,11 +58,10 @@ export async function login(input: {
     borrower.dataValues.password,
   );
   if (!match) throw new Error("InvalidCredentials");
-
   const token = jwt.sign(
     {
-      id: borrower.id,
-      email: borrower.email,
+      id: borrower.dataValues.id,
+      email: borrower.dataValues.email,
       role: ROLES.borrower,
     },
     // TODO: move secret to config/env variable
