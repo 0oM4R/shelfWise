@@ -1,12 +1,11 @@
-
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '@/database/db';
-import bcrypt from "bcrypt"
+import { DataTypes, Model } from "sequelize";
+import { sequelize } from "@/database/db";
+import bcrypt from "bcrypt";
 /**
  * Represents a borrower in the library system.
  * @class
  * @extends Model
- * 
+ *
  * @remarks
  * This model uses Sequelize ORM and includes validation for:
  * - Name length (2-100 characters)
@@ -45,7 +44,7 @@ Borrower.init(
       validate: {
         notEmpty: true,
         isEmail: {
-          msg: 'Must be a valid email address',
+          msg: "Must be a valid email address",
         },
       },
     },
@@ -54,24 +53,32 @@ Borrower.init(
       allowNull: false,
       validate: {
         notEmpty: true,
-        len: [4, 16]
-      }
+        len: [4, 100],
+      },
     },
   },
   {
     sequelize,
-    modelName: 'Borrower',
-    tableName: 'borrowers',
+    modelName: "Borrower",
+    tableName: "borrowers",
     timestamps: true,
     hooks: {
       beforeCreate: async (borrower: Borrower) => {
-        borrower.password = await bcrypt.hash(borrower.password, 10)
+        const salt = await bcrypt.genSalt(10);
+        borrower.dataValues.password = await bcrypt.hash(
+          borrower.dataValues.password,
+          salt,
+        );
       },
-      beforeUpdate: async (borrower: Borrower)=> {
-        if(borrower.changed('password')){
-          borrower.password = await bcrypt.hash(borrower.password, 10)
+      beforeUpdate: async (borrower: Borrower) => {
+        if (borrower.changed("password")) {
+          const salt = await bcrypt.genSalt(10);
+          borrower.dataValues.password = await bcrypt.hash(
+            borrower.dataValues.password,
+            salt,
+          );
         }
-      }
-    }
-  }
+      },
+    },
+  },
 );

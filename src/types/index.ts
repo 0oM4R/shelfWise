@@ -2,7 +2,7 @@ import type { Request } from "express";
 
 export enum ROLES {
   "staff" = 1,
-  "user",
+  "borrower",
 }
 
 export interface AuthenticatedRequest extends Request {

@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { registerStaff, loginStaff } from "@/controllers/staffControllers";
+import {
+  loginBorrower,
+  registerBorrower,
+} from "@/controllers/borrowerController";
 
 const router = Router();
 
@@ -12,25 +16,18 @@ const router = Router();
  *
  * POST /staff/register → Register a new staff member
  * POST /staff/login    → Authenticate a staff member and issue a JWT
+ * POST /borrower/register → Register a new borrower
+ * POST /borrower/login    → Authenticate a borrower and issue a JWT
  *
  * Access:
  * - Both endpoints are public (no authentication required)
  */
 
-/**
- * Register a new staff member.
- *
- * @route POST /api/v1/auth/staff/register
- * @access Public
- */
 router.post("/staff/register", registerStaff);
 
-/**
- * Authenticate a staff member and return a JWT token.
- *
- * @route POST /api/v1/auth/staff/login
- * @access Public
- */
 router.post("/staff/login", loginStaff);
+
+router.post("/borrower/register", registerBorrower);
+router.post("/borrower/login", loginBorrower);
 
 export default router;
