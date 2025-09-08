@@ -1,6 +1,6 @@
-import { DataTypes, Model } from 'sequelize';
-import bcrypt from 'bcrypt'
-import { sequelize } from '@/database/db';
+import { DataTypes, Model } from "sequelize";
+import bcrypt from "bcrypt";
+import { sequelize } from "@/database/db";
 
 /**
  * Represents a Staff member of the Library Management System.
@@ -10,7 +10,7 @@ export default class Staff extends Model {
   public id!: number;
   public name!: string;
   public email!: string;
-  public password!: string; 
+  public password!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -52,18 +52,26 @@ Staff.init(
   },
   {
     sequelize,
-    modelName: 'Staff',
-    tableName: 'staff',
+    modelName: "Staff",
+    tableName: "staff",
     timestamps: true,
     hooks: {
       beforeCreate: async (staff: Staff) => {
-        staff.password = await bcrypt.hash(staff.password, 10);
+        const salt = await bcrypt.genSalt(10);
+        staff.dataValues.password = await bcrypt.hash(
+          staff.dataValues.password,
+          salt,
+        );
       },
       beforeUpdate: async (staff: Staff) => {
         if (staff.changed("password")) {
-          staff.password = await bcrypt.hash(staff.password, 10)
+          const salt = await bcrypt.genSalt(10);
+          staff.dataValues.password = await bcrypt.hash(
+            staff.dataValues.password,
+            salt,
+          );
         }
-      }
-    }
-  }
+      },
+    },
+  },
 );
