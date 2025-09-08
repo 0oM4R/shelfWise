@@ -1,8 +1,8 @@
-import app from "@/app"
-import config from "@/config/config"
-import logger from "@/logger"
-import { connect, sync } from '@/database/db'
-
+import app from "@/app";
+import config from "@/config/config";
+import logger from "@/logger";
+import { connect, sync } from "@/database/db";
+import seed from "./seeds/seeds";
 
 /**
  * Starts the Express server, attempting to connect to the database,
@@ -12,16 +12,17 @@ import { connect, sync } from '@/database/db'
  */
 async function startServer() {
   try {
-    console.info("Testing DB connection...");
+    logger.info("Testing DB connection...");
     await connect();
 
-    console.info("Syncing DB...");
+    logger.info("Syncing DB...");
     await sync();
 
-    console.info("Database synced successfully");
-
+    logger.info("Database synced successfully");
+    await seed();
+    logger.info("seed generated successfully");
     app.listen(config.port, () => {
-      console.log(`Server running on port ${config.port}`);
+      logger.info(`Server running on port ${config.port}`);
     });
   } catch (error) {
     logger.error(`Failed to start server:`);
