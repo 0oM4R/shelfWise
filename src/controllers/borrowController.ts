@@ -29,10 +29,9 @@ export async function getBorrowingsByBorrowerID(
   next: NextFunction,
 ) {
   try {
-    const book = await borrowService.checkout({
-      ...req.body,
-      borrowerID: req.user?.id,
-    });
+    const id = +(req.user?.id || 0);
+    if (!id) throw new Error("unauthorized");
+    const book = await borrowService.getByBorrowerID(id);
     res.status(201).json({ data: book });
   } catch (error) {
     next(error);

@@ -70,7 +70,7 @@ export async function listAllReturned(): Promise<BorrowedBook[]> {
       returnedDate: { not: null },
     },
     include: defaultInclude,
-    order: [["returnedAt", "DESC"]],
+    order: [["returnedDate", "DESC"]],
   });
   return books;
 }
@@ -78,11 +78,11 @@ export async function listAllReturned(): Promise<BorrowedBook[]> {
 export async function listAllOverDue(): Promise<BorrowedBook[]> {
   const books = await BorrowedBook.findAll({
     where: {
-      returnedAt: { [Op.is]: null },
+      returnedDate: { [Op.is]: null },
       dueDate: { [Op.lt]: todayStr },
     },
     include: defaultInclude,
-    order: [["returnedAt", "DESC"]],
+    order: [["returnedDate", "DESC"]],
   });
   return books;
 }
@@ -107,16 +107,14 @@ export async function getByBorrowerID(id: number): Promise<BorrowedBook[]> {
     where: {
       borrowerId: id,
     },
-    attributes: [
-      "id",
-      "bookId",
-      "borrowerId",
-      "borrowedAt",
-      "dueAt",
-      "returnedAt",
+    include: [
+      {
+        model: Book,
+        as: "book",
+        attributes: ["id", "title"],
+      },
     ],
-    include: defaultInclude,
-    order: [["returnedAt", "DESC"]],
+    order: [["returnedDate", "DESC"]],
   });
   if (!book) throw new Error("Borrowing record not found");
   return book;

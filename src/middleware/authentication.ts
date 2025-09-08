@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import type { JwtPayload, AuthenticatedRequest } from "@/types";
+import logger from "@/logger";
 
 /**
  * Middleware function for authentication using JWT tokens.
@@ -22,6 +23,7 @@ export default function authMiddleware(
   try {
     const decoded = jwt.verify(token, "secret") as JwtPayload;
     (req as AuthenticatedRequest).user = decoded;
+    logger.info(decoded);
     next();
   } catch {
     return res.status(401).json({ message: "Invalid token" });

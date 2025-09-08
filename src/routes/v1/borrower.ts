@@ -7,6 +7,7 @@ import {
 } from "@/controllers/borrowerController";
 import { authnMiddleware, authzMiddleware } from "@/middleware";
 import { ROLES } from "@/types";
+import { getBorrowingsByBorrowerID } from "@/controllers/borrowController";
 
 const router = Router();
 
@@ -24,6 +25,7 @@ const router = Router();
  *
  */
 
+router.get("/borrowings", authnMiddleware, getBorrowingsByBorrowerID);
 router.get(
   "/:id",
   authnMiddleware,
