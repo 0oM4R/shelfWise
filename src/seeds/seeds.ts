@@ -9,7 +9,7 @@ import logger from "@/logger";
 export default async function seed() {
   try {
     await sequelize.authenticate();
-    console.log("Database connected!");
+    logger.info("Seed: Database connected!");
 
     const salt = await bcrypt.genSalt(10);
 
