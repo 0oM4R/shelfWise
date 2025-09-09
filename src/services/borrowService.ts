@@ -136,6 +136,29 @@ export async function getByBorrowerID(id: number): Promise<BorrowedBook[]> {
     );
   return book;
 }
+
+export async function getByBookID(id: number): Promise<BorrowedBook[]> {
+  const book = await BorrowedBook.findAll({
+    where: {
+      bookId: id,
+    },
+    include: [
+      {
+        model: Borrower,
+        as: "borrower",
+        attributes: ["id", "name", "email"],
+      },
+    ],
+    order: [["returnedDate", "DESC"]],
+  });
+  if (!book)
+    throw new CustomError(
+      "No borrowing records found for the provided borrower ID.",
+      404,
+    );
+  return book;
+}
+
 /**
  * Updates a book's information.
  *

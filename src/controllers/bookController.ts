@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import * as bookService from "@/services/booksService";
+import * as borrowService from "@/services/borrowService";
 import CustomError from "@/utils/CustomError";
 
 /**
@@ -121,6 +122,20 @@ export async function search(req: Request, res: Response, next: NextFunction) {
     }
     const results = await bookService.search(query);
     return res.status(200).json(results);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listAllBorrowingsByBookId(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const bookId = Number(req.params.id);
+    const borrowings = await borrowService.getByBookID(bookId);
+    res.status(200).json({ data: borrowings });
   } catch (error) {
     next(error);
   }

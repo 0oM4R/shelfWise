@@ -6,6 +6,7 @@ import {
   AddBook,
   updateBookById,
   deleteBookById,
+  listAllBorrowingsByBookId,
 } from "@/controllers/bookController";
 import { authnMiddleware, authzMiddleware } from "@/middleware";
 import { ROLES } from "@/types";
@@ -30,11 +31,13 @@ const router = Router();
  * - `authnMiddleware` → Ensures the request is authenticated
  * - `authzMiddleware(ROLES.staff)` → Ensures only staff can create, update, or delete books
  */
-router.get("/", listAllBooks);
 
 router.get("/search", search);
 
+router.get("/:id/borrowings", listAllBorrowingsByBookId);
 router.get("/:id", getBookByID);
+
+router.get("/", listAllBooks);
 
 router.post("/", authnMiddleware, authzMiddleware(ROLES.staff), AddBook);
 
