@@ -227,19 +227,19 @@ See the diagram below for a visual overview:
 
 ```
 src/
-  app.ts                # Express app setup
-  server.ts             # App entry point
-  config/               # App configuration
-  controllers/          # Route controllers
-  database/             # DB connection
-  middleware/           # Express middlewares
-  models/               # Sequelize models
-  routes/               # API routes
-  seeds/                # Seed scripts
-  services/             # Business logic
-  swagger/              # API docs (if any)
-  types/                # TypeScript types
-  utils/                # Utilities
+  ├── app.ts           # Main Express app setup
+  ├── server.ts        # Application entry point
+  ├── config/          # Environment & app configuration
+  ├── controllers/     # Request/response controllers
+  ├── database/        # Database connection & setup
+  ├── middleware/      # Custom Express middlewares
+  ├── models/          # Sequelize models (ORM definitions)
+  ├── routes/          # API route definitions (versioned)
+  │     └── v1/        # Version 1 API routes
+  ├── seeds/           # Database seed scripts & data
+  ├── services/        # Business/domain logic (service layer)
+  ├── types/           # Shared TypeScript type definitions
+  └── utils/           # Utility/helper functions
 ```
 
 ---
