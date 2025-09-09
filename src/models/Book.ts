@@ -1,18 +1,16 @@
-
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "@/database/db"
-
+import { sequelize } from "@/database/db";
 
 /**
  * Represents a book in the library system.
  * @class Book
  * @extends Model
- * 
- * 
+ *
+ *
  * Includes title, author, ISBN, available copies, and shelf location.
  * Timestamps `createdAt` and `updatedAt` are managed by Sequelize.
  */
- export default class Book extends Model {
+export default class Book extends Model {
   public id!: number;
   public title!: string;
   public author!: string;
@@ -33,7 +31,7 @@ Book.init(
         len: [2, 150],
         is: {
           args: /^[a-zA-Z0-9\s.,'!?:()-]+$/i,
-          msg: 'Title contains invalid characters for search',
+          msg: "Title contains invalid characters for search",
         },
       },
     },
@@ -45,7 +43,7 @@ Book.init(
         len: [2, 100],
         is: {
           args: /^[a-zA-Z\s.,'-]+$/i,
-          msg: 'Author name contains invalid characters',
+          msg: "Author name contains invalid characters",
         },
       },
     },
@@ -57,7 +55,7 @@ Book.init(
         notEmpty: true,
         is: {
           args: /^(?:\d{9}[\dXx]|\d{13}|\d{1,5}-\d{1,7}-\d{1,7}-[\dXx])$/,
-          msg: 'ISBN must be a valid ISBN-10 or ISBN-13 format',
+          msg: "ISBN must be a valid ISBN-10 or ISBN-13 format",
         },
       },
     },
@@ -81,8 +79,13 @@ Book.init(
   },
   {
     sequelize,
-    modelName: 'Book',
-    tableName: 'books',
+    modelName: "Book",
+    tableName: "books",
+    indexes: [
+      { fields: ["title"] },
+      { fields: ["author"] },
+      { fields: ["isbn"] },
+    ],
     timestamps: true,
-  }
+  },
 );

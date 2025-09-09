@@ -115,9 +115,9 @@ export async function search(query: string): Promise<Book[]> {
   const books = await Book.findAll({
     where: {
       [Op.or]: [
-        { title: { [Op.like]: `%${query}%` } },
-        { author: { [Op.like]: `%${query}%` } },
-        { isbn: { [Op.like]: `%${query}%` } },
+        { title: { [Op.like]: `${query}%` } },
+        { author: { [Op.like]: `${query}%` } },
+        { isbn: { [Op.like]: `${query}%` } },
       ],
     },
   });
