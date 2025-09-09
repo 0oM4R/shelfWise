@@ -24,6 +24,7 @@ Simple Library Management System
     - [Borrowers](#borrowers)
     - [Borrowing](#borrowing)
     - [Staff](#staff)
+  - [Database Schema](#database-schema)
   - [Project Structure](#project-structure)
 
 ---
@@ -196,6 +197,29 @@ All endpoints are prefixed with `/api/v1`.
 - `GET /api/v1/staff/:id` — Get a staff member by ID (staff only)
 - `PUT /api/v1/staff/:id` — Update a staff member (staff only)
 - `DELETE /api/v1/staff/:id` — Delete a staff member (staff only)
+
+---
+
+---
+
+## Database Schema
+
+The database schema consists of the following main tables:
+
+- **Book**: Stores information about books (title, author, ISBN, available copies, shelf label).
+- **Borrower**: Stores library users who can borrow books (name, email, password).
+- **Staff**: Stores staff members who manage the library (name, email, password).
+- **BorrowedBook**: Join table linking books and borrowers, tracking borrow/return dates and due dates.
+
+**Relationships:**
+
+- A `Book` can have many `BorrowedBook` records (one-to-many).
+- A `Borrower` can have many `BorrowedBook` records (one-to-many).
+- Each `BorrowedBook` belongs to one `Book` and one `Borrower`.
+
+See the diagram below for a visual overview:
+
+![Database Schema](src/models/schema.png)
 
 ---
 
