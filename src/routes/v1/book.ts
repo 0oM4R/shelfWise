@@ -10,6 +10,7 @@ import {
 } from "@/controllers/bookController";
 import { authnMiddleware, authzMiddleware } from "@/middleware";
 import { ROLES } from "@/types";
+import { rateLimiter } from "@/middleware/rateLimiter";
 
 const router = Router();
 
@@ -28,7 +29,7 @@ const router = Router();
  * POST, PUT, DELETE require staff authorization.
  */
 
-router.get("/search", search);
+router.get("/search", rateLimiter, search);
 
 router.get("/:id/borrowings", listAllBorrowingsByBookId);
 router.get("/:id", getBookByID);

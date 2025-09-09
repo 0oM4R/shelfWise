@@ -37,7 +37,7 @@ See [src/seeds/README.md](src/seeds/README.md) for details on the seed script an
 
 - User authentication (JWT-based) for staff and borrowers
 - Role-based access control (staff, borrower)
-- Book management (CRUD, search)
+- Book management (CRUD, search, rate-limited search endpoint)
 - Borrowing management (borrow, return, overdue tracking)
 - Borrower and staff management
 - RESTful API with versioning
