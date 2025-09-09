@@ -1,6 +1,7 @@
 import { BorrowedBook, Borrower, Book, sequelize } from "@/models";
 import CustomError from "@/utils/CustomError";
 import { type CreationAttributes, Op } from "sequelize";
+import { Parser } from "json2csv";
 const todayStr = new Date().toISOString().slice(0, 10);
 const defaultInclude = [
   {
@@ -188,4 +189,71 @@ export async function returnBook(bookId: number, borrowerId: number) {
     returnedDate: new Date(),
   });
   return borrowRecord.get();
+}
+
+export async function exportLastMonthBorrowProcessesToCSV() {
+  const lastMonth = new Date();
+  lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+  const borrowProcesses = await BorrowedBook.findAll({
+    where: {
+      borrowDate: {
+        [Op.gte]: lastMonth,
+      },
+    },
+  });
+
+  const fields = [
+    "borrowerId",
+    "bookId",
+    "dueDate",
+    "returnedDate",
+    "borrowDate",
+  ];
+  const parser = new Parser({ fields });
+  const csv = parser.parse(
+    borrowProcesses.map((bp) => bp.get({ plain: true })),
+  );
+  return csv;
+}
+
+export async function exportLastMonthBorrowOverdueToCSV() {
+  const now = new Date();
+  const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const endOfLastMonth = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    0,
+    23,
+    59,
+    59,
+  );
+
+  const borrowProcesses = await BorrowedBook.findAll({
+    attributes: [
+      "borrowerId",
+      "bookId",
+      "borrowDate",
+      "dueDate",
+      "returnedDate",
+    ],
+    where: {
+      dueDate: { [Op.between]: [startOfLastMonth, endOfLastMonth] },
+      returnedDate: null,
+    },
+  });
+
+  const fields = [
+    "borrowerId",
+    "bookId",
+    "borrowDate",
+    "dueDate",
+    "returnedDate",
+  ];
+  const parser = new Parser({ fields });
+  const csv = parser.parse(
+    borrowProcesses.map((bp) => bp.get({ plain: true })),
+  );
+
+  return csv;
 }

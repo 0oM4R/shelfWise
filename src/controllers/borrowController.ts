@@ -117,3 +117,37 @@ export async function getBorrowingById(
     next(error);
   }
 }
+
+export async function exportBorrowProcessesLastMonthToCSV(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const borrowProcessesCsv =
+      await borrowService.exportLastMonthBorrowProcessesToCSV();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("data.csv");
+    res.send(borrowProcessesCsv);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function exportBorrowOverdueLastMonthToCSV(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const borrowOverdueCsv =
+      await borrowService.exportLastMonthBorrowOverdueToCSV();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("data.csv");
+    res.send(borrowOverdueCsv);
+  } catch (err) {
+    next(err);
+  }
+}

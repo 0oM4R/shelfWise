@@ -187,9 +187,17 @@ All endpoints are prefixed with `/api/v1`.
 
 - `POST /api/v1/borrowings` — Create a borrowing record (borrower or staff)
 - `GET /api/v1/borrowings` — List all borrowings (staff only)
-- `POST /api/v1/borrowings/return` — Mark a book as returned
+- `POST /api/v1/borrowings/return` — Mark a book as returned (borrower or staff)
 - `GET /api/v1/borrowings/overdue` — List all overdue borrowings (staff only)
 - `GET /api/v1/borrowings/:id` — Get a borrowing record by ID (staff only)
+- `GET /api/v1/borrowings/export` — Export last month's borrowing records as CSV (staff only)
+- `GET /api/v1/borrowings/export/overdue` — Export last month's overdue borrowings as CSV (staff only)
+
+#### Notes
+
+- All endpoints require authentication.
+- Staff-only endpoints require a valid staff JWT.
+- CSV export endpoints return a downloadable CSV file of borrowing data for the previous month.
 
 ### Staff
 
