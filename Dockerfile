@@ -1,18 +1,17 @@
-# Use official Node.js image
-FROM node:20-alpine
+FROM node:22-alpine
 
-# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install 
 
-# Copy the rest of the app
+
+# Use APP_PORT if set, otherwise default to 3000
+
+ARG APP_PORT=3000
+ENV APP_PORT=${APP_PORT}
+EXPOSE ${APP_PORT}
+
 COPY . .
 
-# Expose the port your app runs on (change if not 3000)
-EXPOSE 3000
-
-# Start the app
 CMD ["npm", "start"]
