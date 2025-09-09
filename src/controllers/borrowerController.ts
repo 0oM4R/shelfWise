@@ -3,9 +3,7 @@ import * as borrowerService from "@/services/borrowerService";
 import CustomError from "@/utils/CustomError";
 
 /**
- * Registers a new borrower.
- *
- * @returns A promise resolving to the created borrower in JSON
+ * Register a new borrower.
  */
 export async function registerBorrower(
   req: Request,
@@ -21,9 +19,7 @@ export async function registerBorrower(
 }
 
 /**
- * Authenticates a borrower and issues a JWT token.
- *
- * @returns A promise resolving to a JWT token in JSON
+ * Login a borrower and return JWT.
  */
 export async function loginBorrower(
   req: Request,
@@ -39,9 +35,7 @@ export async function loginBorrower(
 }
 
 /**
- * Retrieves a list of all borrowers.
- *
- * @returns A promise resolving to a list of borrowers in JSON
+ * Get all borrowers.
  */
 export async function listAllBorrower(
   req: Request,
@@ -57,9 +51,7 @@ export async function listAllBorrower(
 }
 
 /**
- * Retrieves a single borrower by ID.
- *
- * @returns A promise resolving to a borrower in JSON
+ * Get a borrower by ID.
  */
 export async function getBorrowerByID(
   req: Request,
@@ -81,9 +73,7 @@ export async function getBorrowerByID(
 }
 
 /**
- * Updates a borrower by ID.
- *
- * @returns A promise resolving to the updated borrower in JSON
+ * Update a borrower by ID.
  */
 export async function updateBorrowerById(
   req: Request,
@@ -105,7 +95,7 @@ export async function updateBorrowerById(
 }
 
 /**
- * Deletes a borrower by ID.
+ * Delete a borrower by ID.
  */
 export async function deleteBorrowerById(
   req: Request,

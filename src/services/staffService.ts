@@ -19,11 +19,7 @@ interface StaffResponse {
 
 /**
  * Register a new staff member.
- *
- * @throws {Error} "User exists" if a staff member with the same email already exists.
- *
- * @param input - The staff data to be registered.
- * @returns The registered staff member.
+ * @throws Error if email exists.
  */
 export async function register(input: StaffInput): Promise<StaffResponse> {
   const exists = await Staff.findOne({
@@ -45,12 +41,8 @@ export async function register(input: StaffInput): Promise<StaffResponse> {
   } as StaffResponse;
 }
 /**
- * Login a staff member by email and password, and return a JWT token.
- *
- * @param input - The email and password of the staff member.
- * @returns A JWT token which can be used to authenticate the staff member.
- *
- * @throws {Error} InvalidCredentials - If the email or password is incorrect.
+ * Login a staff member and return JWT.
+ * @throws Error if credentials are invalid.
  */
 export async function login(input: {
   email: string;
@@ -84,8 +76,7 @@ export async function login(input: {
 }
 
 /**
- * Retrieves a list of all staff members from the database
- * @returns {Promise<Staff[]>} A promise that resolves to an array of Staff objects containing id, name, and email
+ * Get all staff members.
  */
 export async function listAll(): Promise<Staff[]> {
   const staff = await Staff.findAll({
@@ -94,10 +85,8 @@ export async function listAll(): Promise<Staff[]> {
   return staff;
 }
 /**
- * Retrieves a staff member by their ID from the database
- * @param id - The unique identifier of the staff member
- * @returns Promise that resolves to the Staff object with selected attributes
- * @throws Error if staff member is not found
+ * Get a staff member by ID.
+ * @throws Error if not found.
  */
 export async function getByID(id: number): Promise<Staff> {
   const staff = await Staff.findByPk(id, {
@@ -109,11 +98,8 @@ export async function getByID(id: number): Promise<Staff> {
 }
 
 /**
- * Updates a staff member's information in the database
- * @param id - The unique identifier of the staff member to update
- * @param updates - Partial staff object containing the fields to update (excluding id)
- * @returns Object containing the updated staff member's id, name, email and updatedAt timestamp
- * @throws Error if staff member with given id is not found
+ * Update a staff member by ID.
+ * @throws Error if not found.
  */
 export async function update(id: number, updates: Partial<Omit<Staff, "id">>) {
   const staff = await Staff.findByPk(id);
@@ -133,10 +119,8 @@ export async function update(id: number, updates: Partial<Omit<Staff, "id">>) {
 }
 
 /**
- * Deletes a staff member from the database by their ID.
- * @param id - The unique identifier of the staff member to delete
- * @throws {Error} If no staff member is found with the given ID
- * @returns {Promise<void>} A promise that resolves when the staff member is successfully deleted
+ * Delete a staff member by ID.
+ * @throws Error if not found.
  */
 export async function deleteByID(id: number) {
   const deleted = await Staff.destroy({

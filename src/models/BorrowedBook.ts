@@ -1,13 +1,12 @@
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '@/database/db';
-import Book  from './Book';
-import Borrower  from './Borrower';
+import { DataTypes, Model } from "sequelize";
+import { sequelize } from "@/database/db";
+import Book from "./Book";
+import Borrower from "./Borrower";
 
 /**
- * Represents a borrowing record linking a Borrower to a Book.
- * Tracks borrow date, due date, and return date.
+ * BorrowedBook model. Links a borrower to a book.
  */
-export  default class BorrowedBook extends Model {
+export default class BorrowedBook extends Model {
   public id!: number;
   public bookId!: number;
   public borrowerId!: number;
@@ -31,7 +30,7 @@ BorrowedBook.init(
       allowNull: false,
       references: {
         model: Book,
-        key: 'id',
+        key: "id",
       },
     },
     borrowerId: {
@@ -39,7 +38,7 @@ BorrowedBook.init(
       allowNull: false,
       references: {
         model: Borrower,
-        key: 'id',
+        key: "id",
       },
     },
     borrowDate: {
@@ -61,8 +60,8 @@ BorrowedBook.init(
   },
   {
     sequelize,
-    modelName: 'BorrowedBook',
-    tableName: 'borrowed_books',
+    modelName: "BorrowedBook",
+    tableName: "borrowed_books",
     timestamps: true,
-  }
+  },
 );

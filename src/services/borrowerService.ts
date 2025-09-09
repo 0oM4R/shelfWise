@@ -18,12 +18,8 @@ interface BorrowerResponse {
 }
 
 /**
- * Registers a new borrower.
- *
- * @param input - The borrower data to be registered.
- * @returns A borrower object containing id, name, and email.
- *
- * @throws {Error} If a borrower with the same email already exists.
+ * Register a new borrower.
+ * @throws Error if email exists.
  */
 export async function register(
   input: BorrowerInput,
@@ -44,12 +40,8 @@ export async function register(
 }
 
 /**
- * Logs in a borrower by verifying their email and password.
- *
- * @param input - An object containing the borrower's email and password.
- * @returns A signed JWT token that can be used for authentication.
- *
- * @throws {Error} If the email does not exist or the password is incorrect.
+ * Login a borrower and return JWT.
+ * @throws Error if credentials are invalid.
  */
 export async function login(input: {
   email: string;
@@ -86,10 +78,7 @@ export async function login(input: {
 }
 
 /**
- * Retrieves all borrowers.
- *
- * @returns A promise that resolves to an array of borrower objects
- * (id, name, and email only).
+ * Get all borrowers.
  */
 export async function listAll(): Promise<Borrower[]> {
   return Borrower.findAll({
@@ -98,12 +87,8 @@ export async function listAll(): Promise<Borrower[]> {
 }
 
 /**
- * Retrieves a borrower by their ID.
- *
- * @param id - The unique identifier of the borrower.
- * @returns A borrower object containing id, name, email, createdAt, and updatedAt.
- *
- * @throws {Error} If no borrower is found with the given ID.
+ * Get a borrower by ID.
+ * @throws Error if not found.
  */
 export async function getByID(id: number): Promise<Borrower> {
   const borrower = await Borrower.findByPk(id, {
@@ -115,13 +100,8 @@ export async function getByID(id: number): Promise<Borrower> {
 }
 
 /**
- * Updates a borrower's information.
- *
- * @param id - The unique identifier of the borrower to update.
- * @param updates - Partial borrower object containing the fields to update.
- * @returns An object containing the updated borrower's id, name, email, and updatedAt.
- *
- * @throws {Error} If no borrower is found with the given ID.
+ * Update a borrower by ID.
+ * @throws Error if not found.
  */
 export async function update(
   id: number,
@@ -146,12 +126,8 @@ export async function update(
 }
 
 /**
- * Deletes a borrower by their ID.
- *
- * @param id - The unique identifier of the borrower to delete.
- * @returns A promise that resolves when the borrower is successfully deleted.
- *
- * @throws {Error} If no borrower is found with the given ID.
+ * Delete a borrower by ID.
+ * @throws Error if not found.
  */
 export async function deleteByID(id: number) {
   const deleted = await Borrower.destroy({ where: { id } });

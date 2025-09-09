@@ -5,8 +5,6 @@ import CustomError from "@/utils/CustomError";
 
 /**
  * Add a new book.
- *
- * @returns A promise resolving to the created book in JSON
  */
 export async function AddBook(
   req: Request,
@@ -22,9 +20,7 @@ export async function AddBook(
 }
 
 /**
- * Retrieves a list of all books.
- *
- * @returns A promise resolving to a list of books in JSON
+ * Get all books.
  */
 export async function listAllBooks(
   req: Request,
@@ -40,9 +36,7 @@ export async function listAllBooks(
 }
 
 /**
- * Retrieves a single book by ID.
- *
- * @returns A promise resolving to a book in JSON
+ * Get a book by ID.
  */
 export async function getBookByID(
   req: Request,
@@ -64,9 +58,7 @@ export async function getBookByID(
 }
 
 /**
- * Updates a book by ID.
- *
- * @returns A promise resolving to the updated book in JSON
+ * Update a book by ID.
  */
 export async function updateBookById(
   req: Request,
@@ -88,7 +80,7 @@ export async function updateBookById(
 }
 
 /**
- * Deletes a book by ID.
+ * Delete a book by ID.
  */
 export async function deleteBookById(
   req: Request,
@@ -112,7 +104,7 @@ export async function deleteBookById(
 }
 
 /**
- * Search for books by title, author, or ISBN.
+ * Search books by title, author, or ISBN.
  */
 export async function search(req: Request, res: Response, next: NextFunction) {
   try {
@@ -127,6 +119,9 @@ export async function search(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+/**
+ * Get all borrowings for a book by book ID.
+ */
 export async function listAllBorrowingsByBookId(
   req: Request,
   res: Response,

@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import { sequelize } from "@/database/db";
 
 /**
- * Represents a Staff member of the Library Management System.
- * Staff can manage books, borrowers, and borrowing records.
+ * Staff model.
+ * Includes name, email, and password.
  */
 export default class Staff extends Model {
   public id!: number;

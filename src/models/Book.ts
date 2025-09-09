@@ -2,13 +2,8 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "@/database/db";
 
 /**
- * Represents a book in the library system.
- * @class Book
- * @extends Model
- *
- *
- * Includes title, author, ISBN, available copies, and shelf location.
- * Timestamps `createdAt` and `updatedAt` are managed by Sequelize.
+ * Book model.
+ * Includes title, author, ISBN, available copies, and shelf.
  */
 export default class Book extends Model {
   public id!: number;

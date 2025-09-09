@@ -1,3 +1,15 @@
+/**
+ * Borrowing routes.
+ *
+ * Endpoints:
+ *   POST   /         - Create a borrowing record (borrower or staff)
+ *   GET    /         - Get all borrowings (staff only)
+ *   POST   /return   - Mark a book as returned (borrower or staff)
+ *   GET    /overdue  - Get all overdue borrowings (staff only)
+ *   GET    /:id      - Get a borrowing record by ID (staff only)
+ *
+ * Most endpoints require authentication and staff or borrower role as noted.
+ */
 import { Router } from "express";
 import {
   createBorrowing,

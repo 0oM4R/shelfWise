@@ -8,19 +8,15 @@ import {
 const router = Router();
 
 /**
- * Authentication Routes for Staff
- *
- * Base path: /api/v1/auth
+ * Auth routes.
  *
  * Endpoints:
+ *   POST /staff/register     - Register a new staff member
+ *   POST /staff/login        - Login a staff member and return JWT
+ *   POST /borrower/register  - Register a new borrower
+ *   POST /borrower/login     - Login a borrower and return JWT
  *
- * POST /staff/register → Register a new staff member
- * POST /staff/login    → Authenticate a staff member and issue a JWT
- * POST /borrower/register → Register a new borrower
- * POST /borrower/login    → Authenticate a borrower and issue a JWT
- *
- * Access:
- * - Both endpoints are public (no authentication required)
+ * All endpoints are public (no authentication required).
  */
 
 router.post("/staff/register", registerStaff);

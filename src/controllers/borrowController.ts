@@ -4,9 +4,7 @@ import CustomError from "@/utils/CustomError";
 import type { AuthenticatedRequest } from "@/types";
 
 /**
- * Add a new book.
- *
- * @returns A promise resolving to the created book in JSON
+ * Create a borrowing record.
  */
 export async function createBorrowing(
   req: AuthenticatedRequest,
@@ -24,6 +22,9 @@ export async function createBorrowing(
   }
 }
 
+/**
+ * Get all borrowings for the authenticated borrower.
+ */
 export async function getBorrowingsByBorrowerID(
   req: AuthenticatedRequest,
   res: Response,
@@ -43,6 +44,9 @@ export async function getBorrowingsByBorrowerID(
   }
 }
 
+/**
+ * Get all borrowing records.
+ */
 export async function listAllBorrowing(
   req: AuthenticatedRequest,
   res: Response,
@@ -56,6 +60,9 @@ export async function listAllBorrowing(
   }
 }
 
+/**
+ * Mark a book as returned by the borrower.
+ */
 export async function returnBook(
   req: AuthenticatedRequest,
   res: Response,
@@ -73,6 +80,9 @@ export async function returnBook(
   }
 }
 
+/**
+ * Get all overdue borrowings.
+ */
 export async function getAllOverdue(
   req: AuthenticatedRequest,
   res: Response,
@@ -86,6 +96,9 @@ export async function getAllOverdue(
   }
 }
 
+/**
+ * Get a borrowing record by ID.
+ */
 export async function getBorrowingById(
   req: AuthenticatedRequest,
   res: Response,

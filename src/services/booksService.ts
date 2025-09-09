@@ -11,11 +11,8 @@ interface BookInput extends CreationAttributes<Book> {
 }
 
 /**
- * Add a new book in the database.
- *
- * @param input - The book details to be added.
- * @returns A promise that resolves to the newly created book.
- * @throws Error if a book with the same ISBN already exists.
+ * Add a new book.
+ * @throws Error if ISBN exists.
  */
 export async function add(input: BookInput): Promise<Book> {
   const exists = await Book.findOne({
@@ -34,9 +31,7 @@ export async function add(input: BookInput): Promise<Book> {
 }
 
 /**
- * Retrieves all books from the database.
- *
- * @returns A promise that resolves to an array of books.
+ * Get all books.
  */
 export async function listAll(): Promise<Book[]> {
   const books = await Book.findAll();
@@ -44,11 +39,8 @@ export async function listAll(): Promise<Book[]> {
 }
 
 /**
- * Retrieves a book by its ID.
- *
- * @param id - The unique identifier of the book.
- * @returns A promise that resolves to the requested book.
- * @throws Error if no book is found with the given ID.
+ * Get a book by ID.
+ * @throws Error if not found.
  */
 export async function getByID(id: number): Promise<Book> {
   const book = await Book.findByPk(id);
@@ -61,12 +53,8 @@ export async function getByID(id: number): Promise<Book> {
 }
 
 /**
- * Updates a book's information.
- *
- * @param id - The unique identifier of the book to update.
- * @param updates - The fields to update (excluding `id`).
- * @returns A promise that resolves to the updated book.
- * @throws Error if no book is found with the given ID.
+ * Update a book by ID.
+ * @throws Error if not found.
  */
 export async function update(
   id: number,
@@ -85,11 +73,8 @@ export async function update(
 }
 
 /**
- * Deletes a book by its ID.
- *
- * @param id - The unique identifier of the book to delete.
- * @returns A promise that resolves when the book is successfully deleted.
- * @throws Error if no book is found with the given ID.
+ * Delete a book by ID.
+ * @throws Error if not found.
  */
 export async function deleteByID(id: number): Promise<void> {
   const deleted = await Book.destroy({
@@ -106,10 +91,7 @@ export async function deleteByID(id: number): Promise<void> {
 import { Op } from "sequelize";
 
 /**
- * Searches for books by title, author, or ISBN.
- *
- * @param query - The search string to match against book title, author, or ISBN.
- * @returns A promise that resolves to an array of matching books.
+ * Search books by title, author, or ISBN.
  */
 export async function search(query: string): Promise<Book[]> {
   const books = await Book.findAll({

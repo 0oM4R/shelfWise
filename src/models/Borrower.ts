@@ -2,15 +2,8 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "@/database/db";
 import bcrypt from "bcrypt";
 /**
- * Represents a borrower in the library system.
- * @class
- * @extends Model
- *
- * @remarks
- * This model uses Sequelize ORM and includes validation for:
- * - Name length (2-100 characters)
- * - Email format and uniqueness
- * - Registration date validity
+ * Borrower model.
+ * Includes name, email, and password.
  */
 export default class Borrower extends Model {
   public id!: number;

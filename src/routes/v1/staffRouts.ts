@@ -13,35 +13,24 @@ const router = Router();
 // TODO: Some access should be restricted to admin only once the admin role is added.
 
 /**
- * Staff Management Routes
- *
- * Base path: /api/v1/staff
+ * Staff routes.
  *
  * Endpoints:
+ *   GET    /        - Get all staff members (staff only)
+ *   GET    /:id     - Get a staff member by ID (staff only)
+ *   PUT    /:id     - Update a staff member by ID (staff only)
+ *   DELETE /:id     - Delete a staff member by ID (staff only)
  *
- * GET    /           → Retrieve all staff members (protected, staff only)
- * GET    /:id        → Retrieve a staff member by ID (protected, staff only)
- * PUT    /:id        → Update a staff member by ID (protected, staff only)
- * DELETE /:id        → Delete a staff member by ID (protected, staff only)
- *
- * Access:
- * - Currently restricted to staff role via `authzMiddleware(ROLES.staff)`.
- * - In the future, some endpoints may be admin-only.
+ * All endpoints require staff authorization.
  */
 
 /**
- * Retrieve a staff member by ID.
- *
- * @route GET /api/v1/staff/:id
- * @access Protected (staff)
+ * Get a staff member by ID.
  */
 router.get("/:id", authnMiddleware, authzMiddleware(ROLES.staff), getStaffByID);
 
 /**
  * Update a staff member by ID.
- *
- * @route PUT /api/v1/staff/:id
- * @access Protected (staff)
  */
 router.put(
   "/:id",
@@ -51,10 +40,7 @@ router.put(
 );
 
 /**
- * Retrieve all staff members.
- *
- * @route GET /api/v1/staff
- * @access Protected (staff only)
+ * Get all staff members.
  */
 router.get("/", authnMiddleware, authzMiddleware(ROLES.staff), listAllStaff);
 

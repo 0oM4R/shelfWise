@@ -3,9 +3,7 @@ import * as staffService from "@/services/staffService";
 import CustomError from "@/utils/CustomError";
 
 /**
- * Registers a new staff member.
- *
- * @returns A promise resolving to the created staff member in JSON
+ * Register a new staff member.
  */
 export async function registerStaff(
   req: Request,
@@ -21,9 +19,7 @@ export async function registerStaff(
 }
 
 /**
- * Authenticates a staff member and issues a JWT token.
- *
- * @returns A promise resolving to a JWT token in JSON
+ * Login a staff member and return JWT.
  */
 export async function loginStaff(
   req: Request,
@@ -39,9 +35,7 @@ export async function loginStaff(
 }
 
 /**
- * Retrieves a list of all staff members.
- *
- * @returns A promise resolving to a list of staff members in JSON
+ * Get all staff members.
  */
 export async function listAllStaff(
   req: Request,
@@ -57,9 +51,7 @@ export async function listAllStaff(
 }
 
 /**
- * Retrieves a single staff member by ID.
- *
- * @returns A promise resolving to a staff member in JSON
+ * Get a staff member by ID.
  */
 export async function getStaffByID(
   req: Request,
@@ -81,9 +73,7 @@ export async function getStaffByID(
 }
 
 /**
- * Updates a staff member by ID.
- *
- * @returns A promise resolving to the updated staff in JSON
+ * Update a staff member by ID.
  */
 export async function updateStaffById(
   req: Request,
@@ -105,7 +95,7 @@ export async function updateStaffById(
 }
 
 /**
- * Deletes a staff member by ID.
+ * Delete a staff member by ID.
  */
 export async function deleteStaffById(
   req: Request,

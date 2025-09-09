@@ -12,17 +12,16 @@ import { getBorrowingsByBorrowerID } from "@/controllers/borrowController";
 const router = Router();
 
 /**
- * Borrower Management Routes
- *
- * Base path: /api/v1/borrower
+ * Borrower routes.
  *
  * Endpoints:
+ *   GET    /borrowings         - Get all borrowings for the authenticated borrower
+ *   GET    /:id                - Get a borrower by ID (staff only)
+ *   PUT    /:id                - Update a borrower by ID (staff only)
+ *   GET    /                   - Get all borrowers (staff only)
+ *   DELETE /:id                - Delete a borrower by ID (staff only)
  *
- * GET    /           → Retrieve all borrower members
- * GET    /:id        → Retrieve a borrower member by ID
- * PUT    /:id        → Update a borrower member by ID
- * DELETE /:id        → Delete a borrower member by ID
- *
+ * All routes except /borrowings require staff authorization.
  */
 
 router.get("/borrowings", authnMiddleware, getBorrowingsByBorrowerID);

@@ -22,12 +22,10 @@ interface BorrowingInput extends CreationAttributes<BorrowedBook> {
 
 /**
  * Add a new borrowed book in the database.
- *
- * @param input - The borrowing details to be added.
- * @returns A promise that resolves to the newly created book.
- * @throws Error if a book with the same ISBN already exists.
+/**
+ * Checkout a book to a borrower.
+ * @throws Error if book or borrower not found.
  */
-
 export async function checkout(input: BorrowingInput): Promise<BorrowedBook> {
   return await sequelize.transaction(async (t) => {
     const book = await Book.findOne({
@@ -61,9 +59,7 @@ export async function checkout(input: BorrowingInput): Promise<BorrowedBook> {
 }
 
 /**
- * Retrieves all borrowing records from the database.
- *
- * @returns A promise that resolves to an array of books.
+ * Get all borrowing records.
  */
 export async function listAll(): Promise<BorrowedBook[]> {
   const books = await BorrowedBook.findAll({
@@ -97,11 +93,8 @@ export async function listAllOverDue(): Promise<BorrowedBook[]> {
 }
 
 /**
- * Retrieves a borrowing record by its ID.
- *
- * @param id - The unique identifier of the record.
- * @returns A promise that resolves to the requested book.
- * @throws Error if no book is found with the given ID.
+ * Get a borrowing record by ID.
+ * @throws Error if not found.
  */
 export async function getByID(id: number): Promise<BorrowedBook> {
   const book = await BorrowedBook.findByPk(id, {
@@ -160,12 +153,8 @@ export async function getByBookID(id: number): Promise<BorrowedBook[]> {
 }
 
 /**
- * Updates a book's information.
- *
- * @param id - The unique identifier of the book to update.
- * @param updates - The fields to update (excluding `id`).
- * @returns A promise that resolves to the updated book.
- * @throws Error if no book is found with the given ID.
+ * Update a borrowing record by ID.
+ * @throws Error if not found.
  */
 export async function update(
   id: number,
