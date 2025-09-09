@@ -6,6 +6,7 @@ Simple Library Management System
 
 - [shelfWise](#shelfwise)
   - [Table of Contents](#table-of-contents)
+  - [Database Seeding](#database-seeding)
   - [Features](#features)
   - [Requirements](#requirements)
   - [Setup](#setup)
@@ -26,6 +27,10 @@ Simple Library Management System
   - [Project Structure](#project-structure)
 
 ---
+
+## Database Seeding
+
+See [src/seeds/README.md](src/seeds/README.md) for details on the seed script and seeded data.
 
 ## Features
 
