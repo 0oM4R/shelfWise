@@ -15,14 +15,15 @@ Simple Library Management System
     - [Development](#development)
     - [Production](#production)
   - [Docker Usage](#docker-usage)
-    - [1. Start PostgreSQL only (for local dev)](#1-start-postgresql-only-for-local-dev)
-    - [2. Build and run the app and database in Docker](#2-build-and-run-the-app-and-database-in-docker)
+    - [1. Start PostgreSQL only (for local development)](#1-start-postgresql-only-for-local-development)
+    - [2. Run the app and database in Docker](#2-run-the-app-and-database-in-docker)
       - [Notes:](#notes)
   - [API Endpoints](#api-endpoints)
     - [Auth](#auth)
     - [Books](#books)
     - [Borrowers](#borrowers)
     - [Borrowing](#borrowing)
+      - [Notes](#notes-1)
     - [Staff](#staff)
   - [Database Schema](#database-schema)
   - [Project Structure](#project-structure)
@@ -115,27 +116,26 @@ npm start
 
 ## Docker Usage
 
-### 1. Start PostgreSQL only (for local dev)
+### 1. Start PostgreSQL only (for local development)
 
-If you want to use Docker only for the database and run the Node.js app locally:
+To use Docker only for the database and run the Node.js app locally:
 
 ```sh
 docker-compose up -d postgres
 ```
 
-This will start a PostgreSQL container using the environment variables from your `.env` file. Make sure your local app uses the same DB credentials and `DB_HOST=localhost`.
+This starts a PostgreSQL container using environment variables from your `.env` file. Set `DB_HOST=localhost` in your `.env` for local app development.
 
-### 2. Build and run the app and database in Docker
+### 2. Run the app and database in Docker
 
 To run both the Node.js app and PostgreSQL in containers:
 
-1. Ensure the `app` service in `docker-compose.yml` is **uncommented** (it is enabled by default).
-2. Make sure your `.env` file is present in the project root. Docker Compose will pass these variables to both containers.
-3. Start both services:
+1. Ensure your `.env` file is present in the project root. Docker Compose will use these variables for both containers.
+2. Start both services:
    ```sh
-   docker-compose up --build
+   docker-compose up --build -d
    ```
-   This will build the app image, start the database, and run the app. The app will be available at `http://localhost:3000` (or the port you set in `.env`).
+   This builds the app image, starts the database, and runs the app. The app will be available at `http://localhost:3000` (or the port you set in `.env`).
 
 #### Notes:
 
