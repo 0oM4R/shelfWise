@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import * as borrowerService from "@/services/borrowerService";
+import CustomError from "@/utils/CustomError";
 
 /**
  * Registers a new borrower.
@@ -67,7 +68,11 @@ export async function getBorrowerByID(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid borrower ID in request. Please provide a valid borrower ID.",
+        400,
+      );
     const borrower = await borrowerService.getByID(id);
     res.status(200).json({ data: borrower });
   } catch (error) {
@@ -87,7 +92,11 @@ export async function updateBorrowerById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid borrower ID for update. Please provide a valid borrower ID.",
+        400,
+      );
     const borrower = await borrowerService.update(id, req.body);
     res.status(200).json({ data: borrower });
   } catch (error) {
@@ -105,7 +114,11 @@ export async function deleteBorrowerById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid borrower ID for deletion. Please provide a valid borrower ID.",
+        400,
+      );
     await borrowerService.deleteByID(id);
     res
       .status(200)

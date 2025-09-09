@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import * as staffService from "@/services/staffService";
+import CustomError from "@/utils/CustomError";
 
 /**
  * Registers a new staff member.
@@ -67,7 +68,11 @@ export async function getStaffByID(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid staff ID in request. Please provide a valid staff ID.",
+        400,
+      );
     const staff = await staffService.getByID(id);
     res.status(200).json({ data: staff });
   } catch (error) {
@@ -87,7 +92,11 @@ export async function updateStaffById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid staff ID for update. Please provide a valid staff ID.",
+        400,
+      );
     const staff = await staffService.update(id, req.body);
     res.status(200).json({ data: staff });
   } catch (error) {
@@ -105,7 +114,11 @@ export async function deleteStaffById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid  staff ID for deletion. Please provide a valid staff ID.",
+        400,
+      );
     await staffService.deleteByID(id);
     res
       .status(200)

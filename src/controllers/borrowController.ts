@@ -1,5 +1,6 @@
 import type { Response, NextFunction } from "express";
 import * as borrowService from "@/services/borrowService";
+import CustomError from "@/utils/CustomError";
 import type { AuthenticatedRequest } from "@/types";
 
 /**
@@ -30,7 +31,11 @@ export async function getBorrowingsByBorrowerID(
 ) {
   try {
     const id = +(req.user?.id || 0);
-    if (!id) throw new Error("unauthorized");
+    if (!id)
+      throw new CustomError(
+        "Unauthorized: Invalid borrower ID in authentication token.",
+        401,
+      );
     const book = await borrowService.getByBorrowerID(id);
     res.status(201).json({ data: book });
   } catch (error) {
@@ -88,7 +93,11 @@ export async function getBorrowingById(
 ) {
   try {
     const id = +(req.params.id || 0);
-    if (!id) throw new Error("bad request");
+    if (!id)
+      throw new CustomError(
+        "Invalid borrowing record ID in request. Please provide a valid ID.",
+        400,
+      );
     const books = await borrowService.getByID(id);
     res.status(200).json({ data: books });
   } catch (error) {

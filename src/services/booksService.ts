@@ -1,4 +1,5 @@
 import { Book } from "@/models";
+import CustomError from "@/utils/CustomError";
 import { type CreationAttributes } from "sequelize";
 
 interface BookInput extends CreationAttributes<Book> {
@@ -22,7 +23,11 @@ export async function add(input: BookInput): Promise<Book> {
       isbn: input.isbn,
     },
   });
-  if (exists) throw new Error("Book ISBN exists");
+  if (exists)
+    throw new CustomError(
+      "A book with this ISBN already exists. Please use a unique ISBN.",
+      409,
+    );
 
   const book = await Book.create(input);
   return book;
@@ -47,7 +52,11 @@ export async function listAll(): Promise<Book[]> {
  */
 export async function getByID(id: number): Promise<Book> {
   const book = await Book.findByPk(id);
-  if (!book) throw new Error("Book not found");
+  if (!book)
+    throw new CustomError(
+      "No book found with the provided ID. Please check the book ID and try again.",
+      404,
+    );
   return book.dataValues;
 }
 
@@ -64,7 +73,11 @@ export async function update(
   updates: Partial<Omit<Book, "id">>,
 ): Promise<Book> {
   const book = await Book.findByPk(id);
-  if (!book) throw new Error("Book not found");
+  if (!book)
+    throw new CustomError(
+      "No book found to update with the provided ID. Please check the book ID and try again.",
+      404,
+    );
 
   await book.update(updates);
   const updated = (await book.get()) as Book;
@@ -82,7 +95,11 @@ export async function deleteByID(id: number): Promise<void> {
   const deleted = await Book.destroy({
     where: { id },
   });
-  if (deleted === 0) throw new Error("Book not found");
+  if (deleted === 0)
+    throw new CustomError(
+      "No book found to delete with the provided ID. Please check the book ID and try again.",
+      404,
+    );
   return;
 }
 

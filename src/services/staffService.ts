@@ -1,4 +1,5 @@
 import { Staff } from "@/models";
+import CustomError from "@/utils/CustomError";
 import { ROLES } from "@/types";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -30,7 +31,11 @@ export async function register(input: StaffInput): Promise<StaffResponse> {
       email: input.email,
     },
   });
-  if (exists) throw new Error("User exists");
+  if (exists)
+    throw new CustomError(
+      "A staff member with this email already exists. Please use a different email address.",
+      409,
+    );
 
   const staff = (await Staff.create(input)).dataValues;
   return {
@@ -52,9 +57,17 @@ export async function login(input: {
   password: string;
 }): Promise<string> {
   const staff = await Staff.findOne({ where: { email: input.email } });
-  if (!staff) throw new Error("InvalidCredentials");
+  if (!staff)
+    throw new CustomError(
+      "Invalid credentials for the provided staff account. Please try again.",
+      401,
+    );
   const match = await bcrypt.compare(input.password, staff.dataValues.password);
-  if (!match) throw new Error("InvalidCredentials");
+  if (!match)
+    throw new CustomError(
+      "Invalid credentials for the provided staff account. Please try again.",
+      401,
+    );
   const token = jwt.sign(
     {
       id: staff.dataValues.id,
@@ -90,7 +103,8 @@ export async function getByID(id: number): Promise<Staff> {
   const staff = await Staff.findByPk(id, {
     attributes: ["id", "name", "email", "createdAt", "updatedAt"],
   });
-  if (!staff) throw new Error("staff not found");
+  if (!staff)
+    throw new CustomError("Staff member not found for the provided ID.", 404);
   return staff;
 }
 
@@ -103,7 +117,11 @@ export async function getByID(id: number): Promise<Staff> {
  */
 export async function update(id: number, updates: Partial<Omit<Staff, "id">>) {
   const staff = await Staff.findByPk(id);
-  if (!staff) throw new Error("staff notfound");
+  if (!staff)
+    throw new CustomError(
+      "Staff member not found for update. Please check the staff ID and try again.",
+      404,
+    );
   await staff.update(updates);
   const updated = (await staff.get()) as Staff;
   return {
@@ -124,6 +142,10 @@ export async function deleteByID(id: number) {
   const deleted = await Staff.destroy({
     where: { id },
   });
-  if (deleted === 0) throw new Error("not found");
+  if (deleted === 0)
+    throw new CustomError(
+      "Staff member not found for deletion. Please check the staff ID and try again.",
+      404,
+    );
   return;
 }

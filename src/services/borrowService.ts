@@ -1,4 +1,5 @@
 import { BorrowedBook, Borrower, Book, sequelize } from "@/models";
+import CustomError from "@/utils/CustomError";
 import { type CreationAttributes, Op } from "sequelize";
 const todayStr = new Date().toISOString().slice(0, 10);
 const defaultInclude = [
@@ -34,13 +35,21 @@ export async function checkout(input: BorrowingInput): Promise<BorrowedBook> {
       transaction: t,
       lock: t.LOCK.UPDATE,
     });
-    if (!book) throw new Error("Book not found");
+    if (!book)
+      throw new CustomError(
+        "Book not found for checkout. Please verify the book ID.",
+        404,
+      );
 
     const borrower = await Borrower.findOne({
       where: { id: input.borrowerID },
       transaction: t,
     });
-    if (!borrower) throw new Error("Borrower not found");
+    if (!borrower)
+      throw new CustomError(
+        "Borrower not found for checkout. Please verify the borrower ID.",
+        404,
+      );
 
     const borrowRecord = await BorrowedBook.create(input, { transaction: t });
 
@@ -98,7 +107,11 @@ export async function getByID(id: number): Promise<BorrowedBook> {
   const book = await BorrowedBook.findByPk(id, {
     include: defaultInclude,
   });
-  if (!book) throw new Error("Borrowing record not found");
+  if (!book)
+    throw new CustomError(
+      "Borrowing record not found for the provided ID.",
+      404,
+    );
   return book.dataValues;
 }
 
@@ -116,7 +129,11 @@ export async function getByBorrowerID(id: number): Promise<BorrowedBook[]> {
     ],
     order: [["returnedDate", "DESC"]],
   });
-  if (!book) throw new Error("Borrowing record not found");
+  if (!book)
+    throw new CustomError(
+      "No borrowing records found for the provided borrower ID.",
+      404,
+    );
   return book;
 }
 /**
@@ -132,7 +149,11 @@ export async function update(
   updates: Partial<Omit<BorrowedBook, "id">>,
 ): Promise<BorrowedBook> {
   const borrowRecord = await BorrowedBook.findByPk(id);
-  if (!borrowRecord) throw new Error("Book not found");
+  if (!borrowRecord)
+    throw new CustomError(
+      "Borrowing record not found for update. Please verify the record ID.",
+      404,
+    );
 
   await borrowRecord.update(updates);
   const updated = await getByID(borrowRecord.id);
@@ -146,7 +167,11 @@ export async function returnBook(bookId: number, borrowerId: number) {
       borrowerId,
     },
   });
-  if (!borrowRecord) throw new Error("not found");
+  if (!borrowRecord)
+    throw new CustomError(
+      "No borrowing record found for the given book and borrower IDs. Cannot mark as returned.",
+      404,
+    );
   await borrowRecord.update({
     returnedDate: new Date(),
   });

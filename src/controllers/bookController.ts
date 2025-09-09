@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import * as bookService from "@/services/booksService";
+import CustomError from "@/utils/CustomError";
 
 /**
  * Add a new book.
@@ -49,7 +50,11 @@ export async function getBookByID(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid book ID in request. Please provide a valid book ID.",
+        400,
+      );
     const book = await bookService.getByID(id);
     res.status(200).json({ data: book });
   } catch (error) {
@@ -69,7 +74,11 @@ export async function updateBookById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid book ID for update. Please provide a valid book ID.",
+        400,
+      );
     const book = await bookService.update(id, req.body);
     res.status(200).json({ data: book });
   } catch (error) {
@@ -87,7 +96,11 @@ export async function deleteBookById(
 ): Promise<void> {
   try {
     const id = +(req.params?.id || 0);
-    if (!id) throw new Error("Invalid id");
+    if (!id)
+      throw new CustomError(
+        "Invalid book ID for deletion. Please provide a valid book ID.",
+        400,
+      );
     await bookService.deleteByID(id);
     res
       .status(200)
